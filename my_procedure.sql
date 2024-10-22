@@ -1,28 +1,25 @@
--- Create the merged_table if it doesn't already exist
-CREATE TABLE IF NOT EXISTS merged_table (
+-- File: dummy_procedure.sql
+
+-- Create a dummy table if it doesn't exist
+CREATE TABLE IF NOT EXISTS dummy_table (
     id SERIAL PRIMARY KEY,
-    user_name VARCHAR(50),
-    user_age INT,
-    user_email VARCHAR(100),
-    product_name VARCHAR(100),
-    product_price DECIMAL(10, 2),
-    product_quantity INT
+    name VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create the procedure to merge tables
-CREATE OR REPLACE PROCEDURE merge_tables()
-LANGUAGE plpgsql AS $$
+-- Define a procedure to insert a record into the dummy table
+CREATE OR REPLACE PROCEDURE insert_dummy_record(IN input_name VARCHAR)
+LANGUAGE plpgsql
+AS $$
 BEGIN
-    -- Clear the merged_table before inserting new data
-    TRUNCATE TABLE merged_table;
+    -- Insert a new record with the provided name
+    INSERT INTO dummy_table (name)
+    VALUES (input_name);
 
-    -- Insert merged data into merged_table
-    INSERT INTO merged_table (user_name, user_age, user_email, product_name, product_price, product_quantity)
-    SELECT e.name, e.age, e.email, p.product_name, p.price, p.quantity
-    FROM example_table e
-    JOIN product_table p ON e.id % 50 = p.product_id % 50;  -- Adjust join condition as needed
+    -- Optionally, print a message
+    RAISE NOTICE 'Record inserted with name: %', input_name;
 END;
 $$;
 
--- Call the procedure to merge tables
-CALL merge_tables();
+-- Call the procedure with a dummy name (optional; can be done via Python code as well)
+CALL insert_dummy_record('TestName');
