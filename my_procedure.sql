@@ -9,9 +9,9 @@ CREATE TABLE IF NOT EXISTS merged_table (
     product_quantity INT
 );
 
--- Create the procedure function to merge tables
-CREATE OR REPLACE FUNCTION merge_tables()
-RETURNS VOID AS $$
+-- Create the procedure to merge tables
+CREATE OR REPLACE PROCEDURE merge_tables()
+LANGUAGE plpgsql AS $$
 BEGIN
     -- Clear the merged_table before inserting new data
     TRUNCATE TABLE merged_table;
@@ -22,7 +22,7 @@ BEGIN
     FROM example_table e
     JOIN product_table p ON e.id % 50 = p.product_id % 50;  -- Adjust join condition as needed
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
--- Call the function to merge tables
+-- Call the procedure to merge tables
 CALL merge_tables();
