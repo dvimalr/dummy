@@ -3,3 +3,5 @@ BEGIN
     RAISE NOTICE 'Hello, world!';
 END;
 $$;
+
+CALL hello_world();
