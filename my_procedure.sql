@@ -1,6 +1,4 @@
--- my_procedure.sql
-
-CREATE OR REPLACE PROCEDURE merge_tables()
+CREATE OR REPLACE PROCEDURE merge_tables() 
 LANGUAGE plpgsql AS $$
 BEGIN
     -- Create a new table to store the merged results
@@ -19,4 +17,4 @@ BEGIN
 END;
 $$;
 
-CALL merge_tables();
+CALL merge_tables();  -- Call the procedure to execute
