@@ -16,13 +16,14 @@ INSERT INTO table2 (name) VALUES ('David'), ('Eve'), ('Frank');
 -- Procedure to merge the tables and return the result
 -- Procedure to merge the tables and insert the result into a temporary table
 -- Procedure to merge the tables and insert the result into a table
+-- Procedure to merge the tables and insert the result into a table
 CREATE OR REPLACE PROCEDURE merge_tables()
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    -- Option 1: Merge the tables and insert into a permanent table (not temp anymore)
+    -- Create the merged table if it doesn't already exist (without primary key constraint)
     CREATE TABLE IF NOT EXISTS merged_table (
-        id SERIAL PRIMARY KEY,
+        id INT,
         name VARCHAR(50)
     );
 
@@ -36,4 +37,5 @@ BEGIN
     SELECT id, name FROM table2;
 END;
 $$;
+
 
