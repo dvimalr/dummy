@@ -15,14 +15,25 @@ INSERT INTO table2 (name) VALUES ('David'), ('Eve'), ('Frank');
 -- Procedure to merge the tables
 -- Procedure to merge the tables and return the result
 -- Procedure to merge the tables and insert the result into a temporary table
+-- Procedure to merge the tables and insert the result into a table
 CREATE OR REPLACE PROCEDURE merge_tables()
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    -- Create a temporary table to store the merged result
-    CREATE TEMP TABLE temp_merged_table AS
+    -- Option 1: Merge the tables and insert into a permanent table (not temp anymore)
+    CREATE TABLE IF NOT EXISTS merged_table (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(50)
+    );
+
+    -- Truncate the table first to avoid duplicate inserts
+    TRUNCATE TABLE merged_table;
+
+    -- Insert merged data from table1 and table2
+    INSERT INTO merged_table (id, name)
     SELECT id, name FROM table1
     UNION ALL
     SELECT id, name FROM table2;
 END;
 $$;
+
