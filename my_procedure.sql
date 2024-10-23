@@ -18,3 +18,5 @@ BEGIN
     RAISE NOTICE 'Tables merged successfully!';
 END;
 $$;
+
+CALL merge_tables();
