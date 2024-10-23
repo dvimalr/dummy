@@ -1,25 +1,20 @@
--- File: dummy_procedure.sql
-
--- Create a dummy table if it doesn't exist
-CREATE TABLE IF NOT EXISTS dummy_table (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Define a procedure to insert a record into the dummy table
-CREATE OR REPLACE PROCEDURE insert_dummy_record(IN input_name VARCHAR)
-LANGUAGE plpgsql
-AS $$
+CREATE OR REPLACE PROCEDURE merge_tables()
+LANGUAGE plpgsql AS $$
 BEGIN
-    -- Insert a new record with the provided name
-    INSERT INTO dummy_table (name)
-    VALUES (input_name);
+    -- Drop the merged_table if it already exists
+    DROP TABLE IF EXISTS merged_table;
 
-    -- Optionally, print a message
-    RAISE NOTICE 'Record inserted with name: %', input_name;
+    -- Create the merged_table
+    CREATE TABLE merged_table AS
+    SELECT 
+        t1.id AS table1_id,
+        t1.name,
+        t2.description
+    FROM 
+        table1 t1
+    JOIN 
+        table2 t2 ON t1.id = t2.table1_id;
+
+    RAISE NOTICE 'Tables merged successfully!';
 END;
 $$;
-
--- Call the procedure with a dummy name (optional; can be done via Python code as well)
-CALL insert_dummy_record('TestName');
