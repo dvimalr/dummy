@@ -1,3 +1,30 @@
+-- scripts/init.sql
+
+CREATE TABLE IF NOT EXISTS table1 (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS table2 (
+    id SERIAL PRIMARY KEY,
+    table1_id INTEGER REFERENCES table1(id),
+    description TEXT
+);
+
+-- Insert sample data into table1
+INSERT INTO table1 (name) VALUES 
+('Item A'), 
+('Item B'), 
+('Item C');
+
+-- Insert sample data into table2
+INSERT INTO table2 (table1_id, description) VALUES 
+(1, 'Description for Item A'), 
+(1, 'Another Description for Item A'),
+(2, 'Description for Item B'), 
+(3, 'Description for Item C');
+
+
 -- my_procedure.sql
 
 CREATE OR REPLACE PROCEDURE merge_tables()
