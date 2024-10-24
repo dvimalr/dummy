@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS orders CASCADE;
-DROP TABLE IF EXISTS customers CASCADE;
 DROP TABLE IF EXISTS customer_order_summary CASCADE;
+DROP TABLE IF EXISTS customers CASCADE;
 
 CREATE TABLE customers (
     customer_id SERIAL PRIMARY KEY,
