@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS orders CASCADE;
 DROP TABLE IF EXISTS customer_order_summary CASCADE;
 
 -- Table 1: customers
-CREATE TABLE customers (
+CREATE OR REPLACE TABLE customers (
     customer_id SERIAL PRIMARY KEY,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
@@ -16,7 +16,7 @@ CREATE TABLE customers (
 );
 
 -- Table 2: orders
-CREATE TABLE orders (
+CREATE OR REPLACE TABLE orders (
     order_id SERIAL PRIMARY KEY,
     customer_id INT REFERENCES customers(customer_id),
     order_date DATE,
@@ -24,7 +24,7 @@ CREATE TABLE orders (
 );
 
 -- Create a new table to hold merged data
-CREATE TABLE customer_order_summary (
+CREATE OR REPLACE TABLE customer_order_summary (
     customer_id INT PRIMARY KEY,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
