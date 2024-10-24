@@ -1,4 +1,4 @@
--- "Create or replace" customers table
+
 DROP TABLE IF EXISTS customers;
 CREATE TABLE customers (
     customer_id SERIAL PRIMARY KEY,
@@ -7,7 +7,7 @@ CREATE TABLE customers (
     email VARCHAR(100) UNIQUE
 );
 
--- "Create or replace" orders table
+
 DROP TABLE IF EXISTS orders;
 CREATE TABLE orders (
     order_id SERIAL PRIMARY KEY,
@@ -16,7 +16,7 @@ CREATE TABLE orders (
     amount DECIMAL(10, 2)
 );
 
--- "Create or replace" customer_order_summary table
+
 DROP TABLE IF EXISTS customer_order_summary;
 CREATE TABLE customer_order_summary (
     customer_id INT PRIMARY KEY,
@@ -26,15 +26,15 @@ CREATE TABLE customer_order_summary (
     total_amount DECIMAL(10, 2)
 );
 
--- Procedure to merge the customers and orders tables
+
 CREATE OR REPLACE PROCEDURE merge_customers_and_orders()
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    -- Clear the customer_order_summary table
+    
     TRUNCATE TABLE customer_order_summary;
 
-    -- Merge customers and orders data into customer_order_summary
+    
     INSERT INTO customer_order_summary (customer_id, first_name, last_name, email, total_amount)
     SELECT 
         c.customer_id,
@@ -52,24 +52,23 @@ BEGIN
 END;
 $$;
 
--- Call the procedure immediately after defining it
+
 CALL merge_customers_and_orders();
 
--- Optional: Insert some sample data for testing
--- Insert data into customers
+
 INSERT INTO customers (first_name, last_name, email) VALUES
 ('John', 'Doe', 'john.doe@example.com'),
 ('Jane', 'Smith', 'jane.smith@example.com'),
 ('Bob', 'Johnson', 'bob.johnson@example.com');
 
--- Insert data into orders
+
 INSERT INTO orders (customer_id, order_date, amount) VALUES
 (1, '2024-01-10', 100.50),
 (1, '2024-02-15', 250.00),
 (2, '2024-01-22', 300.75);
 
--- Re-run the merge procedure to test with the inserted data
+
 CALL merge_customers_and_orders();
 
--- Query to check the merged results
+
 SELECT * FROM customer_order_summary;
