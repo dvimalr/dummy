@@ -1,18 +1,3 @@
--- Table 1: customers
-CREATE TABLE customers (
-    customer_id SERIAL PRIMARY KEY,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    email VARCHAR(100) UNIQUE
-);
-
--- Table 2: orders
-CREATE TABLE orders (
-    order_id SERIAL PRIMARY KEY,
-    customer_id INT REFERENCES customers(customer_id),
-    order_date DATE,
-    amount DECIMAL(10, 2)
-);
 
 -- Create a new table to hold merged data
 CREATE TABLE customer_order_summary (
